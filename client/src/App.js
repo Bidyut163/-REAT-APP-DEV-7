@@ -9,7 +9,8 @@ import { loadUserAppellant } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 import Home from './components/frontend/Home';
-import CreateAppeal from './components/frontend/CreateAppeal';
+// import CreateAppeal from './components/frontend/CreateAppeal';
+import CreateAppeal from './components/appellant/CreateAppeal';
 import AppellantLogin from './components/frontend/auth/appellant/Login';
 import Register from './components/frontend/auth/appellant/Register';
 import UserLogin from './components/frontend/auth/official/Login';
