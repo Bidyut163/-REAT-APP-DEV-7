@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 
-const Header = () => {
+const Header = ({ logout }) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
@@ -56,4 +57,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default connect(null, { logout })(Header);
