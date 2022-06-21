@@ -74,7 +74,7 @@ router.post(
     '/appeals/:id/checklist',
     [
         body('appealNum', 'Please enter a appeal number').isLength({ min: 1 }),
-        body('complaintNum', 'Please enter a cpmplaint number').isLength({
+        body('complaintNum', 'Please enter a complaint number').isLength({
             min: 1,
         }),
         body('appellant', 'Please enter a appellant name').isLength({ min: 1 }),
@@ -97,7 +97,38 @@ router.post(
             return res.status(400).json(errObj);
         }
 
-        const { appealNum, complaintNum, appellant, respondent } = req.body;
+        const {
+            appealNum,
+            complaintNum,
+            appellant,
+            respondent,
+            sectionNum,
+            isAppealCompetent,
+            isNameAddressCorrect,
+            isOrdercopyAttached,
+            dateOfOrder,
+            dateOfCommunication,
+            dateOfApplication,
+            dateOnCopyReady,
+            dateOfReceipt,
+            dateOfFiling,
+            isDelayOnSubmission,
+            amountOfDelayOnSubmission,
+            isAppealFiledWithinLimitation,
+            isDelayInFiling,
+            amountOfDelayInFiling,
+            isCondonationOfDelayFiled,
+            objectionForCondonation,
+            isFeesPaid,
+            dateOfPayment,
+            copyOfReceipt,
+            isPaginationCorrect,
+            legibleDocs,
+            isAppealMemoAnnexed,
+            isServedByPost,
+            isAuthStamped,
+            isEmailPhoneOnRecord,
+        } = req.body;
         const appealId = req.params.id;
 
         try {
@@ -129,6 +160,33 @@ router.post(
                 appellant: appellant,
                 respondent: respondent,
                 appealId: appealId,
+                section_num: sectionNum,
+                is_appeal_competent: isAppealCompetent,
+                is_name_address_correct: isNameAddressCorrect,
+                is_ordercopy_attached: isOrdercopyAttached,
+                date_of_order: dateOfOrder,
+                date_of_communication: dateOfCommunication,
+                date_of_application: dateOfApplication,
+                date_on_copy_ready: dateOnCopyReady,
+                date_of_receipt: dateOfReceipt,
+                date_of_filing: dateOfFiling,
+                is_delay_on_submission: isDelayOnSubmission,
+                amount_of_delay_on_submission: amountOfDelayOnSubmission,
+                is_appeal_filed_within_limitation:
+                    isAppealFiledWithinLimitation,
+                is_delay_in_filing: isDelayInFiling,
+                amount_of_delay_in_filing: amountOfDelayInFiling,
+                is_condonation_of_delay_filed: isCondonationOfDelayFiled,
+                objection_for_condonation: objectionForCondonation,
+                is_fees_paid: isFeesPaid,
+                date_of_payment: dateOfPayment,
+                copy_of_receipt: copyOfReceipt,
+                is_pagination_correct: isPaginationCorrect,
+                legible_docs: legibleDocs,
+                is_appeal_memo_annexed: isAppealMemoAnnexed,
+                is_served_by_post: isServedByPost,
+                is_auth_stamped: isAuthStamped,
+                is_email_phone_on_record: isEmailPhoneOnRecord,
             });
 
             await checklist.save();
