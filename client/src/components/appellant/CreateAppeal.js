@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { createAppeal } from '../../actions/appeal';
 import Header from '../frontend/Header';
 
+import './CreateAppeal.css';
+
 const FormC = ({ createAppeal, history }) => {
     const [formData, setFormData] = useState({
         first_name: '',
@@ -131,11 +133,140 @@ const FormC = ({ createAppeal, history }) => {
 
     const validate = (values) => {
         const errors = {};
+        const email_regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+        const mobile_regex = /^([0|\+[0-9]{1,5})?([6-9][0-9]{9})$/;
+
         if (!values.first_name) {
             errors.first_name = 'First name is required';
         }
         if (!values.last_name) {
             errors.last_name = 'Last name is required';
+        }
+        if (!values.ar_line1) {
+            errors.ar_line1 = 'Address Line 1 is required';
+        }
+        if (!values.ar_line2) {
+            errors.ar_line2 = 'Address Line 2 is required';
+        }
+        if (!values.ar_country) {
+            errors.ar_country = 'Country is required';
+        }
+        if (!values.ar_state) {
+            errors.ar_state = 'State is required';
+        }
+        if (!values.ar_city) {
+            errors.ar_city = 'City is required';
+        }
+        if (!values.ar_district) {
+            errors.ar_district = 'District is required';
+        }
+        if (!values.ar_pin) {
+            errors.ar_pin = 'Pin is required';
+        }
+        if (!values.as_line1) {
+            errors.as_line1 = 'Address Line 1 is required';
+        }
+        if (!values.as_line2) {
+            errors.as_line2 = 'Address Line 2 is required';
+        }
+        if (!values.as_country) {
+            errors.as_country = 'Country is required';
+        }
+        if (!values.as_state) {
+            errors.as_state = 'State is required';
+        }
+        if (!values.as_city) {
+            errors.as_city = 'City is required';
+        }
+        if (!values.as_district) {
+            errors.as_district = 'District is required';
+        }
+        if (!values.as_pin) {
+            errors.as_pin = 'Pin is required';
+        }
+        if (!values.appellant_mobile_no) {
+            errors.appellant_mobile_no = 'Mobile Number is required';
+        } else if (!mobile_regex.test(values.appellant_mobile_no)) {
+            errors.appellant_mobile_no = 'Please enter a valid Mobile Number';
+        }
+
+        if (!values.appellant_email_id) {
+            errors.appellant_email_id = 'Email Address is required';
+        } else if (!email_regex.test(values.appellant_email_id)) {
+            errors.appellant_email_id = 'Please enter a valid Email';
+        }
+
+        if (!values.res_first_name) {
+            errors.res_first_name = 'First Name is required';
+        }
+        if (!values.res_last_name) {
+            errors.res_last_name = 'Last Name is required';
+        }
+        if (!values.res_ao_line1) {
+            errors.res_ao_line1 = 'Address Line 1 is required';
+        }
+        if (!values.res_ao_line2) {
+            errors.res_ao_line2 = 'Address Line 2 is required';
+        }
+        if (!values.res_ao_country) {
+            errors.res_ao_country = 'Country is required';
+        }
+        if (!values.res_ao_state) {
+            errors.res_ao_state = 'State is required';
+        }
+        if (!values.res_ao_city) {
+            errors.res_ao_city = 'City is required';
+        }
+        if (!values.res_ao_district) {
+            errors.res_ao_district = 'District is required';
+        }
+        if (!values.res_ao_pin) {
+            errors.res_ao_pin = 'Pin is required';
+        }
+        if (!values.res_as_line1) {
+            errors.res_as_line1 = 'Address Line 1 is required';
+        }
+        if (!values.res_as_line2) {
+            errors.res_as_line2 = 'Address Line 2 is required';
+        }
+        if (!values.res_as_country) {
+            errors.res_as_country = 'Country is required';
+        }
+        if (!values.res_as_state) {
+            errors.res_as_state = 'State is required';
+        }
+        if (!values.res_as_city) {
+            errors.res_as_city = 'City is required';
+        }
+        if (!values.res_as_district) {
+            errors.res_as_district = 'District is required';
+        }
+        if (!values.res_as_pin) {
+            errors.res_as_pin = 'Pin is required';
+        }
+        if (!values.res_mobile_no) {
+            errors.res_mobile_no = 'Mobile Number is required';
+        } else if (!mobile_regex.test(values.res_mobile_no)) {
+            errors.res_mobile_no = 'Please enter a valid Mobile Number';
+        }
+
+        if (!values.res_email_id) {
+            errors.res_email_id = 'Email Address is required';
+        } else if (!email_regex.test(values.res_email_id)) {
+            errors.res_email_id = 'Please enter a valid Email';
+        }
+
+        if (!values.reg_num) {
+            errors.reg_num = 'Project Registration Number is required';
+        }
+        if (!values.facts_of_case) {
+            errors.facts_of_case = 'Please specify Facts of the case';
+        }
+        if (!values.ground_of_appeal) {
+            errors.ground_of_appeal = 'Please specify Grounds of Appeal';
+        }
+        if (!values.reliefs_sought) {
+            errors.reliefs_sought = 'Please specify Relief(s) Sought';
         }
         return errors;
     };
@@ -148,7 +279,7 @@ const FormC = ({ createAppeal, history }) => {
                     <form className="row g-3" onSubmit={(e) => onSubmit(e)}>
                         <h5>1. Particulars of the Appellant</h5>
                         <h6>Name of the Appellant</h6>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label htmlFor="firstName" className="form-label">
                                 First Name
                             </label>
@@ -164,7 +295,7 @@ const FormC = ({ createAppeal, history }) => {
                                 {formErrors.first_name}
                             </p>
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label htmlFor="lastName" className="form-label">
                                 Last Name
                             </label>
@@ -184,7 +315,7 @@ const FormC = ({ createAppeal, history }) => {
                             Address of the Existing Office/ Residence of the
                             Appellant
                         </h6>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label htmlFor="AddLine1" className="form-label">
                                 Address Line 1
                             </label>
@@ -196,8 +327,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ar_line1}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ar_line1}
+                            </p>
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label htmlFor="AddLine2" className="form-label">
                                 Address Line 2
                             </label>
@@ -209,8 +343,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ar_line2}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ar_line2}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="country" className="form-label">
                                 Country
                             </label>
@@ -222,8 +359,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ar_country}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ar_country}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="state" className="form-label">
                                 State
                             </label>
@@ -235,6 +375,9 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ar_state}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ar_state}
+                            </p>
                         </div>
                         <div className="col-md-4 mb-3">
                             <label htmlFor="landmark" className="form-label">
@@ -249,7 +392,7 @@ const FormC = ({ createAppeal, history }) => {
                                 onChange={(e) => onChange(e)}
                             />
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="city" className="form-label">
                                 City
                             </label>
@@ -261,8 +404,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ar_city}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ar_city}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="district" className="form-label">
                                 District
                             </label>
@@ -274,8 +420,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ar_district}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ar_district}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="pin" className="form-label">
                                 Pin
                             </label>
@@ -287,9 +436,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ar_pin}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ar_pin}
+                            </p>
                         </div>
                         <h6>Address for Service of all Notices</h6>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label htmlFor="serAddLine1" className="form-label">
                                 Address Line 1
                             </label>
@@ -301,8 +453,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={as_line1}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.as_line1}
+                            </p>
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label htmlFor="serAddLine2" className="form-label">
                                 Address Line 2
                             </label>
@@ -314,8 +469,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={as_line2}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.as_line2}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label
                                 htmlFor="serAddCountry"
                                 className="form-label"
@@ -330,8 +488,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={as_country}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.as_country}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="serAddState" className="form-label">
                                 State
                             </label>
@@ -343,6 +504,9 @@ const FormC = ({ createAppeal, history }) => {
                                 value={as_state}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.as_state}
+                            </p>
                         </div>
                         <div className="col-md-4 mb-3">
                             <label htmlFor="serLandMark" className="form-label">
@@ -357,7 +521,7 @@ const FormC = ({ createAppeal, history }) => {
                                 onChange={(e) => onChange(e)}
                             />
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="SerAddCity" className="form-label">
                                 City
                             </label>
@@ -369,8 +533,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={as_city}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.as_city}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label
                                 htmlFor="SerAddDistrict"
                                 className="form-label"
@@ -385,8 +552,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={as_district}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.as_district}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="serAddPin" className="form-label">
                                 Pin
                             </label>
@@ -398,9 +568,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={as_pin}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.as_pin}
+                            </p>
                         </div>
                         <h6>Contact Details</h6>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label
                                 htmlFor="mobileNumber"
                                 className="form-label"
@@ -415,8 +588,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={appellant_mobile_no}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.appellant_mobile_no}
+                            </p>
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label htmlFor="emailAdd" className="form-label">
                                 Email Address
                             </label>
@@ -426,12 +602,16 @@ const FormC = ({ createAppeal, history }) => {
                                 id="emailAdd"
                                 name="appellant_email_id"
                                 value={appellant_email_id}
+                                placeholder="name@example.com"
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.appellant_email_id}
+                            </p>
                         </div>
                         <h5>2. Particulars of the Respondent</h5>
                         <h6>Name of the Respondent</h6>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label
                                 htmlFor="resfirstName"
                                 className="form-label"
@@ -446,8 +626,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_first_name}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_first_name}
+                            </p>
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label htmlFor="reslastName" className="form-label">
                                 Last Name
                             </label>
@@ -459,9 +642,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_last_name}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_last_name}
+                            </p>
                         </div>
                         <h6>Office Address of the Respondent</h6>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label htmlFor="resAddLine1" className="form-label">
                                 Address Line 1
                             </label>
@@ -473,8 +659,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_ao_line1}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_ao_line1}
+                            </p>
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label htmlFor="resAddLine2" className="form-label">
                                 Address Line 2
                             </label>
@@ -486,8 +675,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_ao_line2}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_ao_line2}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="resCountry" className="form-label">
                                 Country
                             </label>
@@ -499,8 +691,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_ao_country}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_ao_country}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="resState" className="form-label">
                                 State
                             </label>
@@ -512,6 +707,9 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_ao_state}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_ao_state}
+                            </p>
                         </div>
                         <div className="col-md-4 mb-3">
                             <label htmlFor="resLandmark" className="form-label">
@@ -526,7 +724,7 @@ const FormC = ({ createAppeal, history }) => {
                                 onChange={(e) => onChange(e)}
                             />
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="resCity" className="form-label">
                                 City
                             </label>
@@ -538,8 +736,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_ao_city}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_ao_city}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="resDistrict" className="form-label">
                                 District
                             </label>
@@ -551,8 +752,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_ao_district}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_ao_district}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="resPin" className="form-label">
                                 Pin
                             </label>
@@ -564,9 +768,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_ao_pin}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_ao_pin}
+                            </p>
                         </div>
                         <h6>Address for Service of all Notices</h6>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label
                                 htmlFor="ResSerAddLine1"
                                 className="form-label"
@@ -581,8 +788,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_as_line1}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_as_line1}
+                            </p>
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 required">
                             <label
                                 htmlFor="ResSerAddLine2"
                                 className="form-label"
@@ -597,8 +807,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_as_line2}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_as_line2}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label
                                 htmlFor="ResSerCountry"
                                 className="form-label"
@@ -613,8 +826,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_as_country}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_as_country}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="ResSerState" className="form-label">
                                 State
                             </label>
@@ -626,6 +842,9 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_as_state}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_as_state}
+                            </p>
                         </div>
                         <div className="col-md-4 mb-3">
                             <label
@@ -643,7 +862,7 @@ const FormC = ({ createAppeal, history }) => {
                                 onChange={(e) => onChange(e)}
                             />
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="ResSerCity" className="form-label">
                                 City
                             </label>
@@ -655,8 +874,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_as_city}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_as_city}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label
                                 htmlFor="ResSerDistrict"
                                 className="form-label"
@@ -671,8 +893,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_as_district}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_as_district}
+                            </p>
                         </div>
-                        <div className="col-md-4 mb-3">
+                        <div className="col-md-4 mb-3 required">
                             <label htmlFor="ResSerPin" className="form-label">
                                 Pin
                             </label>
@@ -684,9 +909,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_as_pin}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_as_pin}
+                            </p>
                         </div>
                         <h6>Contact Details</h6>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label
                                 htmlFor="resMobileNumber"
                                 className="form-label"
@@ -701,8 +929,11 @@ const FormC = ({ createAppeal, history }) => {
                                 value={res_mobile_no}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_mobile_no}
+                            </p>
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label htmlFor="resEmail" className="form-label">
                                 Email Address
                             </label>
@@ -712,8 +943,12 @@ const FormC = ({ createAppeal, history }) => {
                                 id="resEmail"
                                 name="res_email_id"
                                 value={res_email_id}
+                                placeholder="name@example.com"
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.res_email_id}
+                            </p>
                         </div>
                         <h5>3. Jurisdiction of the Appellant Tribunal :</h5>
                         <div className="mb-3 form-check">
@@ -735,13 +970,14 @@ const FormC = ({ createAppeal, history }) => {
                                 the Appellate Tribunal
                             </label>
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label
                                 htmlFor="registrationNum"
                                 className="form-label"
                             >
                                 Project Registration Number
                             </label>
+
                             <input
                                 type="text"
                                 className="form-control"
@@ -750,6 +986,9 @@ const FormC = ({ createAppeal, history }) => {
                                 value={reg_num}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.reg_num}
+                            </p>
                         </div>
                         <h5>4. Limitation :</h5>
                         <div className="mb-3 form-check">
@@ -792,7 +1031,7 @@ const FormC = ({ createAppeal, history }) => {
                                 (2) of section 44 specify reasons for delay:
                             </label>
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 ">
                             <textarea
                                 rows="10"
                                 className="form-control"
@@ -804,7 +1043,7 @@ const FormC = ({ createAppeal, history }) => {
                             />
                         </div>
                         <h5>5. Facts of the case:</h5>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label htmlFor="facts" className="form-label">
                                 Give concise statement of facts and grounds of
                                 appeal against the specific order of the
@@ -821,9 +1060,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={facts_of_case}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.facts_of_case}
+                            </p>
                         </div>
                         <h5>6. Grounds of Appeal</h5>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label
                                 htmlFor="groundsOfAppeal"
                                 className="form-label"
@@ -840,9 +1082,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={ground_of_appeal}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.ground_of_appeal}
+                            </p>
                         </div>
                         <h5>7. Relief(s) sought</h5>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label
                                 htmlFor="reliefSought"
                                 className="form-label"
@@ -861,9 +1106,12 @@ const FormC = ({ createAppeal, history }) => {
                                 value={reliefs_sought}
                                 onChange={(e) => onChange(e)}
                             />
+                            <p className="invalid-feedback d-block">
+                                {formErrors.reliefs_sought}
+                            </p>
                         </div>
                         <h5>8. Interim order, if prayed for</h5>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6 mb-3 required">
                             <label
                                 htmlFor="interimOrder"
                                 className="form-label"
