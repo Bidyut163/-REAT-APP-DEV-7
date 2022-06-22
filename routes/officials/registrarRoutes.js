@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
+const validateChecklisInput = require('../../validation/checklist');
 
 // Middlewares
 const auth = require('../../middleware/auth');
@@ -72,16 +73,7 @@ router.get('/appeals/:id', auth, isRegistrar, async (req, res) => {
 
 router.post(
     '/appeals/:id/checklist',
-    [
-        body('appealNum', 'Please enter a appeal number').isLength({ min: 1 }),
-        body('complaintNum', 'Please enter a complaint number').isLength({
-            min: 1,
-        }),
-        body('appellant', 'Please enter a appellant name').isLength({ min: 1 }),
-        body('respondent', 'Please enter a respondent name').isLength({
-            min: 1,
-        }),
-    ],
+    validateChecklisInput,
     auth,
     isRegistrar,
     async (req, res) => {
@@ -112,6 +104,7 @@ router.post(
             dateOnCopyReady,
             dateOfReceipt,
             dateOfFiling,
+            dateOfSubmissionHardcopy,
             isDelayOnSubmission,
             amountOfDelayOnSubmission,
             isAppealFiledWithinLimitation,
@@ -159,7 +152,6 @@ router.post(
                 complaint_num: complaintNum,
                 appellant: appellant,
                 respondent: respondent,
-                appealId: appealId,
                 section_num: sectionNum,
                 is_appeal_competent: isAppealCompetent,
                 is_name_address_correct: isNameAddressCorrect,
@@ -170,6 +162,7 @@ router.post(
                 date_on_copy_ready: dateOnCopyReady,
                 date_of_receipt: dateOfReceipt,
                 date_of_filing: dateOfFiling,
+                date_of_submission_hardcopy: dateOfSubmissionHardcopy,
                 is_delay_on_submission: isDelayOnSubmission,
                 amount_of_delay_on_submission: amountOfDelayOnSubmission,
                 is_appeal_filed_within_limitation:
@@ -187,6 +180,7 @@ router.post(
                 is_served_by_post: isServedByPost,
                 is_auth_stamped: isAuthStamped,
                 is_email_phone_on_record: isEmailPhoneOnRecord,
+                appealId: appealId,
             });
 
             await checklist.save();

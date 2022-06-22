@@ -76,6 +76,10 @@ const Checklist = sequelize.define(
             type: Sequelize.DATEONLY,
             allowNull: false,
         },
+        date_of_submission_hardcopy: {
+            type: Sequelize.DATEONLY,
+            allowNull: false,
+        },
         is_delay_on_submission: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
