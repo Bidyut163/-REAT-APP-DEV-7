@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { validationResult } = require('express-validator');
 const validateInputAppeal = require('../../validation/appeal');
+const appealPdf = require('./appealPdf');
 
 const fs = require('fs');
 const path = require('path');
@@ -231,28 +232,7 @@ router.get('/appeals/:id/printappeal', auth, async (req, res) => {
         pdfDoc.pipe(res);
 
         // Design of the pdf document
-        pdfDoc.font('Times-Roman');
-        pdfDoc.fontSize(12).text('FORM C', { align: 'center' }).moveDown(0.5);
-        pdfDoc
-            .fontSize(12)
-            .text('APPEAL TO APPELLATE TRIBUNAL', { align: 'center' })
-            .moveDown(0.5);
-        pdfDoc
-            .fontSize(12)
-            .text('Appeal under Section 44', { align: 'center' })
-            .moveDown(0.5);
-        pdfDoc
-            .fontSize(11)
-            .text(
-                'Name of the appellant: ' +
-                    appeal.first_name +
-                    ' ' +
-                    appeal.last_name,
-                {
-                    align: 'left',
-                }
-            );
-
+        appealPdf(pdfDoc, appeal);
         pdfDoc.end();
     } catch (err) {
         console.log(err.message);
