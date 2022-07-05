@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createChecklist, getChecklist } from '../../../actions/checklist';
 
-import ChecklistShow from './ChecklistShow';
-
 const Checklist = ({
     createChecklist,
     getChecklist,
@@ -22,33 +20,6 @@ const Checklist = ({
         complaintNum: '',
         appellant: '',
         respondent: '',
-        sectionNum: '',
-        isAppealCompetent: false,
-        isNameAddressCorrect: false,
-        isOrdercopyAttached: false,
-        dateOfOrder: '',
-        dateOfCommunication: '',
-        dateOfApplication: '',
-        dateOnCopyReady: '',
-        dateOfReceipt: '',
-        dateOfFiling: '',
-        dateOfSubmissionHardcopy: '',
-        isDelayOnSubmission: '',
-        amountOfDelayOnSubmission: '',
-        isAppealFiledWithinLimitation: false,
-        isDelayInFiling: false,
-        amountOfDelayInFiling: '',
-        isCondonationOfDelayFiled: false,
-        objectionForCondonation: '',
-        isFeesPaid: false,
-        dateOfPayment: '',
-        copyOfReceipt: '',
-        isPaginationCorrect: '',
-        legibleDocs: '',
-        isAppealMemoAnnexed: false,
-        isServedByPost: false,
-        isAuthStamped: false,
-        isEmailPhoneOnRecord: false,
     });
 
     const {
@@ -89,19 +60,108 @@ const Checklist = ({
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleCheck = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.checked });
-    };
     const onSubmit = (e) => {
         e.preventDefault();
         const { id } = match.params;
-        createChecklist(formData, id, history);
-
-        // console.log(formData);
+        createChecklist(
+            { appealNum, appellant, complaintNum, respondent },
+            id,
+            history
+        );
     };
 
     if (checklist) {
-        return <ChecklistShow checklist={checklist} />;
+        return (
+            <div className="container-fluid">
+                <h1 className="h3 mb-2 text-gray-800">Checklist - FORM A</h1>
+                <p className="mb-4">Checklist for Scrutiny Appeal</p>
+                <div className="card shadow mb-4">
+                    <div className="card-header py-3"></div>
+                    <div className="card-body">
+                        <div className="row g-3">
+                            <div className="col-12">
+                                <h4>
+                                    <label htmlFor="FORM A">
+                                        <b>FORM A</b>
+                                    </label>
+                                </h4>
+                            </div>
+
+                            <div className="col-12">
+                                <h4>
+                                    <label htmlFor="CHECKLIST FOR SECURITY APPEAL">
+                                        <b>CHECKLIST FOR SCRUTINY APPEAL</b>
+                                    </label>
+                                </h4>
+                            </div>
+
+                            <form
+                                className="row g-4"
+                                onSubmit={(e) => onSubmit(e)}
+                            >
+                                <div className="col-md-2">
+                                    <label
+                                        htmlFor="appealNum"
+                                        className="form-label"
+                                    >
+                                        <b>Appeal No.</b>
+                                    </label>
+                                </div>
+
+                                <div className="col-md-4">
+                                    <h6>{checklist.appeal_num}</h6>
+                                </div>
+
+                                <div className="col-md-2">
+                                    <label
+                                        htmlFor="complaintNum"
+                                        className="form-label"
+                                    >
+                                        <b>Complaint No.</b>
+                                    </label>
+                                </div>
+
+                                <div className="col-md-4">
+                                    <h6>{checklist.complaint_num}</h6>
+                                </div>
+
+                                <div className="col-md-2">
+                                    <label className="form-label">
+                                        <b>Parties:</b>
+                                    </label>
+                                </div>
+
+                                <div className="col-md-10">
+                                    <h6>{checklist.appellant}</h6>
+                                </div>
+
+                                <div className="col-md-2">
+                                    <label className="form-label">
+                                        <b>Vs</b>
+                                    </label>
+                                </div>
+
+                                <div className="col-md-10">
+                                    <h6>{checklist.respondent}</h6>
+                                </div>
+
+                                <div className="col-12">
+                                    <button className="btn btn-primary btn-icon-split">
+                                        <span className="icon text-white-50">
+                                            <i className="fas fa-flag"></i>
+                                        </span>
+                                        <span className="text">
+                                            Edit Form A
+                                        </span>
+                                    </button>
+                                    <div className="my-2"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
     return (
         <div className="container-fluid">
@@ -125,11 +185,6 @@ const Checklist = ({
                                     <b>CHECKLIST FOR SCRUTINY APPEAL</b>
                                 </label>
                             </h4>
-
-                            <p style={{ color: '#d88' }}>
-                                (* Check the checkboxes for Yes and leave it
-                                unchecked for No)
-                            </p>
                         </div>
 
                         <form className="row g-4" onSubmit={(e) => onSubmit(e)}>
@@ -233,24 +288,34 @@ const Checklist = ({
                             </div>
 
                             <div className="col-md-6">
-                                <label
-                                    className="form-label"
-                                    htmlFor="isAppealCompetent"
-                                >
+                                <label className="form-label">
                                     2. Whether the appeal is competent
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isAppealCompetent"
-                                    name="isAppealCompetent"
-                                    value={isAppealCompetent}
-                                    checked={isAppealCompetent}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes1"
+                                    type="radio"
+                                    name="competentAppeal"
+                                    id="yes1"
                                 />
+                                <label className="yes1" htmlFor="yes1">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no1"
+                                    type="radio"
+                                    name="competentAppeal"
+                                    id="no1"
+                                />
+                                <label className="no1" htmlFor="no1">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-6">
@@ -261,16 +326,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isNameAddressCorrect"
-                                    name="isNameAddressCorrect"
-                                    value={isNameAddressCorrect}
-                                    checked={isNameAddressCorrect}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes2"
+                                    type="radio"
+                                    name="partiesAppealMemo"
+                                    id="yes2"
                                 />
+                                <label className="yes2" htmlFor="yes2">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no2"
+                                    type="radio"
+                                    name="partiesAppealMemo"
+                                    id="no2"
+                                />
+                                <label className="no2" htmlFor="no2">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-6">
@@ -280,16 +358,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isOrdercopyAttached"
-                                    name="isOrdercopyAttached"
-                                    value={isOrdercopyAttached}
-                                    checked={isOrdercopyAttached}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="impugned"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="impugned"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-12">
@@ -314,9 +405,6 @@ const Checklist = ({
                                     type="date"
                                     className="form-control"
                                     id="dateOfOrder"
-                                    name="dateOfOrder"
-                                    value={dateOfOrder}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -337,9 +425,6 @@ const Checklist = ({
                                     type="date"
                                     className="form-control"
                                     id="dateOfCommunication"
-                                    name="dateOfCommunication"
-                                    value={dateOfCommunication}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -360,9 +445,6 @@ const Checklist = ({
                                     type="date"
                                     className="form-control"
                                     id="dateOfApplication"
-                                    name="dateOfApplication"
-                                    value={dateOfApplication}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -382,9 +464,6 @@ const Checklist = ({
                                     type="date"
                                     className="form-control"
                                     id="dateOfCopy"
-                                    name="dateOnCopyReady"
-                                    value={dateOnCopyReady}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -404,9 +483,6 @@ const Checklist = ({
                                     type="date"
                                     className="form-control"
                                     id="dateOfReceipt"
-                                    name="dateOfReceipt"
-                                    value={dateOfReceipt}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -426,9 +502,6 @@ const Checklist = ({
                                     type="date"
                                     className="form-control"
                                     id="dateOfOnline"
-                                    name="dateOfFiling"
-                                    value={dateOfFiling}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -436,7 +509,7 @@ const Checklist = ({
 
                             <div className="col-md-5">
                                 <label
-                                    htmlFor="dateOfSubmissionHardcopy"
+                                    htmlFor="dateOfSubmersion"
                                     className="form-label"
                                 >
                                     g. Date of submission of hard copy of Appeal
@@ -448,10 +521,7 @@ const Checklist = ({
                                 <input
                                     type="date"
                                     className="form-control"
-                                    id="dateOfSubmissionHardcopy"
-                                    name="dateOfSubmissionHardcopy"
-                                    value={dateOfSubmissionHardcopy}
-                                    onChange={(e) => onChange(e)}
+                                    id="dateOfSubmersion"
                                 />
                             </div>
 
@@ -464,16 +534,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isDelayOnSubmission"
-                                    name="isDelayOnSubmission"
-                                    value={isDelayOnSubmission}
-                                    checked={isDelayOnSubmission}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes4"
+                                    type="radio"
+                                    name="hardCopy"
+                                    id="yes4"
                                 />
+                                <label className="yes4" htmlFor="yes4">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no4"
+                                    type="radio"
+                                    name="hardCopy"
+                                    id="no4"
+                                />
+                                <label className="no4" htmlFor="no4">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-1"></div>
@@ -489,9 +572,6 @@ const Checklist = ({
                                     type="text"
                                     className="form-control"
                                     id="days"
-                                    name="amountOfDelayOnSubmission"
-                                    value={amountOfDelayOnSubmission}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -502,16 +582,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isAppealFiledWithinLimitation"
-                                    name="isAppealFiledWithinLimitation"
-                                    value={isAppealFiledWithinLimitation}
-                                    checked={isAppealFiledWithinLimitation}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="appealFiled"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="appealFiled"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-6">
@@ -521,16 +614,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isDelayInFiling"
-                                    name="isDelayInFiling"
-                                    value={isDelayInFiling}
-                                    checked={isDelayInFiling}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="delayFiling"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="delayFiling"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-1"></div>
@@ -549,9 +655,6 @@ const Checklist = ({
                                     type="days"
                                     className="form-control"
                                     id="delayDays"
-                                    name="amountOfDelayInFiling"
-                                    value={amountOfDelayInFiling}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -562,16 +665,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isCondonationOfDelayFiled"
-                                    name="isCondonationOfDelayFiled"
-                                    value={isCondonationOfDelayFiled}
-                                    checked={isCondonationOfDelayFiled}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="condonation"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="condonation"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-1"></div>
@@ -590,9 +706,6 @@ const Checklist = ({
                                     className="form-control"
                                     id="objection"
                                     rows="3"
-                                    name="objectionForCondonation"
-                                    value={objectionForCondonation}
-                                    onChange={(e) => onChange(e)}
                                 ></textarea>
                             </div>
 
@@ -602,16 +715,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isFeesPaid"
-                                    name="isFeesPaid"
-                                    value={isFeesPaid}
-                                    checked={isFeesPaid}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="requisite"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="requisite"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-1"></div>
@@ -627,12 +753,9 @@ const Checklist = ({
 
                             <div className="col-md-6">
                                 <input
-                                    type="date"
+                                    type="text"
                                     className="form-control"
                                     id="dateOfPayment"
-                                    name="dateOfPayment"
-                                    value={dateOfPayment}
-                                    onChange={(e) => onChange(e)}
                                 />
                             </div>
 
@@ -671,16 +794,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isPaginationCorrect"
-                                    name="isPaginationCorrect"
-                                    value={isPaginationCorrect}
-                                    checked={isPaginationCorrect}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="indexPagination"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="indexPagination"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-1"></div>
@@ -696,9 +832,6 @@ const Checklist = ({
                                     className="form-control"
                                     id="legible"
                                     rows="3"
-                                    name="legibleDocs"
-                                    value={legibleDocs}
-                                    onChange={(e) => onChange(e)}
                                 ></textarea>
                             </div>
 
@@ -715,16 +848,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isAppealMemoAnnexed"
-                                    name="isAppealMemoAnnexed"
-                                    value={isAppealMemoAnnexed}
-                                    checked={isAppealMemoAnnexed}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="annexed"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="annexed"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-1"></div>
@@ -735,16 +881,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isServedByPost"
-                                    name="isServedByPost"
-                                    value={isServedByPost}
-                                    checked={isServedByPost}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="served"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="served"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-6">
@@ -754,16 +913,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isAuthStamped"
-                                    name="isAuthStamped"
-                                    value={isAuthStamped}
-                                    checked={isAuthStamped}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="stamped"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="stamped"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
 
                             <div className="col-md-6">
@@ -773,16 +945,29 @@ const Checklist = ({
                                 </label>
                             </div>
 
-                            <div className="col-md-6 form-check">
+                            <div className="col-md-3">
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="isEmailPhoneOnRecord"
-                                    name="isEmailPhoneOnRecord"
-                                    value={isEmailPhoneOnRecord}
-                                    checked={isEmailPhoneOnRecord}
-                                    onChange={(e) => handleCheck(e)}
+                                    className="yes3"
+                                    type="radio"
+                                    name="record"
+                                    id="yes3"
                                 />
+                                <label className="yes3" htmlFor="yes3">
+                                    {' '}
+                                    Yes{' '}
+                                </label>
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    className="no3"
+                                    type="radio"
+                                    name="record"
+                                    id="no3"
+                                />
+                                <label className="no3" htmlFor="no3">
+                                    {' '}
+                                    No{' '}
+                                </label>
                             </div>
                             <div className="col-12">
                                 <button className="btn btn-success btn-icon-split">

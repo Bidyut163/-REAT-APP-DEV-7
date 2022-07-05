@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ChecklistShow = () => {
+const ChecklistShow = ({ checklist }) => {
     return (
         <div className="container-fluid">
             <h1 className="h3 mb-2 text-gray-800">Checklist - FORM A</h1>
@@ -25,7 +25,7 @@ const ChecklistShow = () => {
                             </h4>
                         </div>
 
-                        <form className="row g-4" onSubmit={(e) => onSubmit(e)}>
+                        <form className="row g-4">
                             <div className="col-md-2">
                                 <label
                                     htmlFor="appealNum"
