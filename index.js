@@ -32,6 +32,7 @@ const Appeal = require('./models/Appeal');
 const AppealState = require('./models/AppealState');
 const Checklist = require('./models/Checklist');
 const AppealDoc = require('./models/AppealDoc');
+const RevertedAppeal = require('./models/RevertedAppeal');
 
 // Init Middleware
 app.use(express.json({ extended: false }));
@@ -76,6 +77,9 @@ Appeal.hasOne(Checklist);
 
 AppealDoc.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
 Appeal.hasOne(AppealDoc);
+
+RevertedAppeal.belongsTo(Appeal, { constraints: true, onDelete: 'CASCADE' });
+Appeal.hasOne(RevertedAppeal);
 
 sequelize
     // .sync({ force: true })
