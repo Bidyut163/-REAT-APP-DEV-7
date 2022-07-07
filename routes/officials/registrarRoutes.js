@@ -11,6 +11,7 @@ const isRegistrar = require('../../middleware/isRegistrar');
 const Appeal = require('../../models/Appeal');
 const AppealState = require('../../models/AppealState');
 const Checklist = require('../../models/Checklist');
+const RevertedAppeal = require('../../models/RevertedAppeal');
 
 // @route Post api/registrar/appeals
 // @desc  View all Appeals - with registrar
@@ -206,6 +207,69 @@ router.get('/appeals/:id/checklist', auth, isRegistrar, async (req, res) => {
         });
 
         res.json(checklist);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route PATCH api/registrar/appeals/:id/revert
+// @desc  revert back to receptionist
+// @access Private
+router.patch('/appeals/:id/revert', auth, isRegistrar, async (req, res) => {
+    try {
+        const registrar = await AppealState.findOne({
+            attributes: ['registrar'],
+            where: {
+                appealId: req.params.id,
+            },
+        });
+
+        // check if the appeal is with the registrar
+        if (!registrar.get({ plain: true }).registrar) {
+            return res.json({ msg: 'appeal is not with the registrar' });
+        }
+
+        await AppealState.update(
+            {
+                appellant: 0,
+                receptionist: 1,
+                registrar: 0,
+                bench: 0,
+            },
+            {
+                where: { appealId: req.params.id },
+            }
+        );
+
+        const { revertReason } = req.body;
+
+        // see if already reverted once
+        const existingAppeal = await RevertedAppeal.findOne({
+            where: { appealId: req.params.id },
+        });
+
+        if (existingAppeal) {
+            const revertedAppeal = await RevertedAppeal.update(
+                {
+                    reason: revertReason,
+                },
+                {
+                    where: { appealId: req.params.id },
+                }
+            );
+
+            return res.json({ reason: revertReason });
+        }
+
+        const revertedAppeal = RevertedAppeal.build({
+            reason: revertReason,
+            appealId: req.params.id,
+        });
+
+        await revertedAppeal.save();
+
+        res.json(revertedAppeal);
     } catch (err) {
         console.log(err.message);
         res.status(500).send('Server Error');
