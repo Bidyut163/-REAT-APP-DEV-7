@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { appellantLogin } from '../../../../actions/auth';
 import { connect } from 'react-redux';
 
-const Login = ({ appellantLogin, auth: { isAuthenticated, userType } }) => {
+const Login = ({
+    appellantLogin,
+    auth: { isAuthenticated, userType },
+    serverErrors,
+}) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -11,14 +15,36 @@ const Login = ({ appellantLogin, auth: { isAuthenticated, userType } }) => {
 
     const { email, password } = formData;
 
+    const [formErrors, setFormErrors] = useState({});
+
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
+
         appellantLogin(email, password);
     };
+
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        const errors = {};
+        if (serverErrors.email) {
+            errors.email = serverErrors.email;
+            errors.emailValidationClass = 'is-invalid';
+        }
+        if (serverErrors.password) {
+            errors.password = serverErrors.password;
+            errors.passwordValidationClass = 'is-invalid';
+        }
+
+        setFormErrors(errors);
+    });
 
     // Redirect if Logged in and Appellant
     if (isAuthenticated && userType === 'APPELLANT') {
@@ -46,13 +72,18 @@ const Login = ({ appellantLogin, auth: { isAuthenticated, userType } }) => {
                                             </svg> */}
                                             </span>
                                             <input
-                                                className="form-control"
+                                                className={`form-control ${formErrors.emailValidationClass}`}
                                                 type="email"
                                                 placeholder="Email"
                                                 name="email"
                                                 value={email}
                                                 onChange={(e) => onChange(e)}
                                             />
+                                            {formErrors.email ? (
+                                                <p className="invalid-feedback d-block">
+                                                    {formErrors.email}
+                                                </p>
+                                            ) : null}
                                         </div>
                                         <div className="input-group mb-4">
                                             <span className="input-group-text">
@@ -62,13 +93,18 @@ const Login = ({ appellantLogin, auth: { isAuthenticated, userType } }) => {
                                             </svg> */}
                                             </span>
                                             <input
-                                                className="form-control"
+                                                className={`form-control ${formErrors.passwordValidationClass}`}
                                                 type="password"
                                                 placeholder="Password"
                                                 name="password"
                                                 value={password}
                                                 onChange={(e) => onChange(e)}
                                             />
+                                            {formErrors.password ? (
+                                                <p className="invalid-feedback d-block">
+                                                    {formErrors.password}
+                                                </p>
+                                            ) : null}
                                         </div>
                                         <div className="row">
                                             <div className="col-6">
@@ -121,6 +157,7 @@ const Login = ({ appellantLogin, auth: { isAuthenticated, userType } }) => {
 const mapStateToProps = (state) => {
     return {
         auth: state.auth,
+        serverErrors: state.errors,
     };
 };
 
