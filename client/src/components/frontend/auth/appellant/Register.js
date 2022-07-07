@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { register } from '../../../../actions/auth';
@@ -12,17 +12,43 @@ const Register = ({ auth: { isAuthenticated, userType }, register }) => {
 
     const { email, password, password2 } = formData;
 
+    const [formErrors, setFormErrors] = useState({});
+
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = (e) => {
         e.preventDefault();
 
+        setFormErrors(validate(formData));
+
         if (password !== password2) {
-            console.log('password mismatch');
+            console.log('password do not match');
         } else {
             register({ email, password });
         }
+    };
+
+    const validate = (values) => {
+        const errors = {};
+        const email_regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+
+        if (!values.email) {
+            errors.email = 'Email is required';
+        } else if (!email_regex.test(values.email)) {
+            errors.email = 'Please enter a valid Email';
+        }
+        if (!values.password) {
+            errors.password = 'password is required';
+        } else if (values.password.length < 6) {
+            errors.password = 'password needs to be atleast 6 characters long';
+        }
+
+        if (values.password !== values.password2) {
+            errors.password2 = 'password do not match';
+        }
+
+        return errors;
     };
 
     // Redirect if Logged in and Appellant
@@ -68,6 +94,11 @@ const Register = ({ auth: { isAuthenticated, userType }, register }) => {
                                             value={email}
                                             onChange={(e) => onChange(e)}
                                         />
+                                        {formErrors.email ? (
+                                            <p className="invalid-feedback d-block">
+                                                {formErrors.email}
+                                            </p>
+                                        ) : null}
                                     </div>
                                     <div className="input-group mb-3">
                                         <span className="input-group-text">
@@ -84,6 +115,11 @@ const Register = ({ auth: { isAuthenticated, userType }, register }) => {
                                             value={password}
                                             onChange={(e) => onChange(e)}
                                         />
+                                        {formErrors.password ? (
+                                            <p className="invalid-feedback d-block">
+                                                {formErrors.password}
+                                            </p>
+                                        ) : null}
                                     </div>
                                     <div className="input-group mb-4">
                                         <span className="input-group-text">
@@ -100,6 +136,11 @@ const Register = ({ auth: { isAuthenticated, userType }, register }) => {
                                             value={password2}
                                             onChange={(e) => onChange(e)}
                                         />
+                                        {formErrors.password2 ? (
+                                            <p className="invalid-feedback d-block">
+                                                {formErrors.password2}
+                                            </p>
+                                        ) : null}
                                     </div>
                                     <button
                                         className="btn btn-block btn-success"
