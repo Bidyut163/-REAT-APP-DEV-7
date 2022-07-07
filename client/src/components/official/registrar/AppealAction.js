@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { forwardToBench } from '../../../actions/appeal';
+import { forwardToBench, revertAppeal } from '../../../actions/appeal';
 
-const AppealAction = ({ match, forwardToBench, history }) => {
+const AppealAction = ({ match, forwardToBench, revertAppeal, history }) => {
+    const [formData, setFormData] = useState({
+        revertReason: '',
+    });
+
+    const { revertReason } = formData;
+
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
     const onSubmit = () => {
         const { id } = match.params;
 
         forwardToBench(id, history);
+    };
+
+    const onRevertSubmit = (e) => {
+        e.preventDefault();
+
+        const { id } = match.params;
+
+        revertAppeal(formData, id, history);
     };
 
     return (
@@ -25,13 +43,16 @@ const AppealAction = ({ match, forwardToBench, history }) => {
                         </div>
                         <div className="card-body">
                             <div className="chart-area">
-                                <form>
+                                <form onSubmit={(e) => onRevertSubmit(e)}>
                                     <div className="row mb-3">
                                         <div className="col-md-12">
                                             <textarea
                                                 className="form-control"
                                                 rows="10"
                                                 placeholder="Reason for reverting back the appeal"
+                                                name="revertReason"
+                                                value={revertReason}
+                                                onChange={(e) => onChange(e)}
                                             />
                                         </div>
                                     </div>
@@ -87,4 +108,6 @@ const AppealAction = ({ match, forwardToBench, history }) => {
     );
 };
 
-export default connect(null, { forwardToBench })(withRouter(AppealAction));
+export default connect(null, { forwardToBench, revertAppeal })(
+    withRouter(AppealAction)
+);

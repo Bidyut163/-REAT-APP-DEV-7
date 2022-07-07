@@ -3,6 +3,7 @@ import {
     GET_APPEAL,
     CREATE_APPEAL,
     FORWARD_APPEAL,
+    REVERT_APPEAL,
     APPEAL_ERROR,
     GET_APPEALS_REGISTRAR,
     GET_APPEAL_REGISTRAR,
@@ -54,6 +55,7 @@ export default function (state = initialState, action) {
                 loading: false,
             };
         case FORWARD_APPEAL:
+        case REVERT_APPEAL:
             return {
                 ...state,
                 appeals: state.appeals.filter(

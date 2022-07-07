@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import {
     APPEAL_ERROR,
     GET_APPEALS,
@@ -9,6 +10,8 @@ import {
     GET_APPEAL_REGISTRAR,
     GET_APPEALS_APPELLANT,
     GET_APPEAL_APPELLANT,
+    REVERT_APPEAL,
+    SET_ALERT,
 } from './types';
 
 // Get List of Appeals with Receptionist
@@ -213,6 +216,37 @@ export const getAppealsBench = () => async (dispatch) => {
             type: GET_APPEALS,
             payload: res.data,
         });
+    } catch (err) {
+        dispatch({
+            type: APPEAL_ERROR,
+            payload: {
+                msg: err.response.statusText,
+                status: err.response.status,
+            },
+        });
+    }
+};
+
+// Revert Appeal to receptionist
+export const revertAppeal = (formData, id, history) => async (dispatch) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    try {
+        await axios.patch(
+            `/api/registrar/appeals/${id}/revert`,
+            formData,
+            config
+        );
+
+        dispatch({
+            type: REVERT_APPEAL,
+            payload: id,
+        });
+
+        history.push('/official/registrar/appeals');
     } catch (err) {
         dispatch({
             type: APPEAL_ERROR,

@@ -7,8 +7,8 @@ const routes = [
     {
         path: '/official/admin/dashboard',
         exact: true,
-        name: 'Dashboard',
-        component: Dashboard,
+        name: 'Users',
+        component: Users,
     },
     {
         path: '/official/admin/users/new',
